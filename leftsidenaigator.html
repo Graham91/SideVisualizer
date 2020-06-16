@@ -232,8 +232,9 @@
                         $(element.id).animate({ top: "-=100px" }, "normal");
                     });
                     postitionOne.splice(0, 5);
-
-
+                    function findP4(box) {
+                        return box.position === 'p4';
+                    }
                     function findp3(box) {
                         return box.position === 'p3';
                     }
@@ -244,9 +245,14 @@
 
                     const chosenBoxelement = elementarray.find(findp3);
                     const chosenBoxelement2 = elementarray.find(findP2);
+                    const chosenBoxelement4 = elementarray.find(findP4);
 
                     let chosenBoxId = chosenBoxelement.id;
                     let chosenBoxId2 = chosenBoxelement2.id;
+                    let chosenBoxId4 = chosenBoxelement4.id;
+                    if (chosenBoxId === "#box5") {
+                        $(chosenBoxId4).css("display", "none");
+                    }
 
 
                     $(chosenBoxId2).removeClass("addclickevent");
@@ -283,6 +289,7 @@
 
                     let chosenBoxId = chosenBoxelement.id;
                     let chosenBoxId2 = chosenBoxelement2.id;
+
 
                     $(chosenBoxId2).removeClass("addclickevent");
                     function myFunction() {
