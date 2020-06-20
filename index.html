@@ -16,8 +16,6 @@
             text-align: center;
             position: absolute;
             z-index: 0;
-
-
         }
 
 
@@ -113,6 +111,79 @@
             z-index: 400;
 
         }
+
+        .mainViewer {
+            position: absolute;
+            width: 800px;
+            height: 400px;
+            z-index: 10;
+
+        }
+
+        .center {
+            top: 0px;
+            bottom: 0px;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+
+        .top {
+            top: -9999px;
+            position: fixed;
+            z-index: 10;
+
+
+        }
+
+        .bottom {
+            bottom: -9999px;
+            position: fixed;
+            z-index: 10;
+
+
+        }
+
+        .viewerContainers {
+            position: absolute;
+            top: 280px;
+            margin-left: 240px;
+            z-index: 1;
+
+        }
+
+        .fullscreendiv {
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            overflow-y: hidden;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .transition {
+            transition: .5s ease-in-out;
+        }
+
+        #mainviewer1 {
+            background-color: aquamarine;
+        }
+
+        #mainviewer2 {
+            background-color: yellow;
+        }
+
+        #mainviewer3 {
+            background-color: green;
+        }
+
+        #mainviewer4 {
+            background-color: black;
+        }
+
+        #mainviewer5 {
+            background-color: blue;
+        }
     </style>
 </head>
 
@@ -138,6 +209,27 @@
     </div>
     <div id="buttondiv"></div>
     <div id="buttondiv2"></div>
+    <div class="fullscreendiv">
+
+        <div class="viewerContainers">
+            <div class="mainViewer transition" id="mainviewer1">
+                div1
+            </div>
+            <div class="mainViewer transition" id="mainviewer2">
+                div2
+
+            </div>
+            <div class="mainViewer transition" id="mainviewer3">
+                div3
+            </div>
+            <div class="mainViewer transition" id="mainviewer4">
+                div4
+            </div>
+            <div class="mainViewer transition" id="mainviewer5">
+                div5
+            </div>
+        </div>
+    </div>
     <div id="showDiv">
         <p>hi graham</p>
     </div>
@@ -145,9 +237,17 @@
 
     <script>
         $(document).ready(function () {
+            console.log("working")
             let wait;
-            $("#box3").addClass("addclickevent");
+            $("#mainviewer1").addClass("top");
+            $("#mainviewer2").addClass("top");
+            $("#mainviewer3").addClass("center");
 
+            $("#mainviewer4").addClass("bottom");
+            $("#mainviewer5").addClass("bottom");
+            $("#box3").addClass("addclickevent");
+            const mainViewerIdArray = ["#mainviewer1", "#mainviewer2", "#mainviewer3", "#mainviewer4", "#mainviewer5"];
+            let locationIndex = 2;
             const elementarray = [
                 { id: "#box1", position: "p1" },
                 { id: "#box2", position: "p2" },
@@ -165,6 +265,47 @@
 
 
             });
+            function moveMainViewer(location, direction) {
+
+
+
+                let mainViewerID = mainViewerIdArray[location];
+                if (direction === "down") {
+                    if (location === 4) {
+                    } else {
+                        console.log("upbottonclicked")
+                        let moveUp = location + 1;
+                        console.log(moveUp);
+                        let newMainViewerID = mainViewerIdArray[moveUp];
+                        console.log(newMainViewerID);
+                        $(mainViewerID).removeClass("center");
+
+                        $(mainViewerID).addClass("top");
+                        $(newMainViewerID).removeClass("bottom");
+                        $(newMainViewerID).addClass("center");
+                        locationIndex++;
+                    }
+                }
+                if (direction === "up") {
+                    if (location === 0) {
+
+                    }
+                    else {
+                        console.log("downbottonclicked")
+                        let moveDown = location - 1;
+                        let newMainViewerID = mainViewerIdArray[moveDown];
+                        $(mainViewerID).removeClass("center");
+
+                        $(mainViewerID).addClass("bottom");
+                        $(newMainViewerID).removeClass("top");
+                        $(newMainViewerID).addClass("center");
+                        locationIndex--;
+                    }
+
+                }
+
+            }
+
             function showdivs(locator) {
                 if (locator === "middle") {
 
@@ -209,6 +350,7 @@
 
             $("#buttondiv2").click(function () {
                 clearTimeout(wait);
+                moveMainViewer(locationIndex, "down");
                 $("#box3").removeClass("addclickevent");
                 if (postitionOne[0] === "p4") {
 
@@ -288,6 +430,7 @@
             });
             $("#buttondiv").click(function () {
                 clearTimeout(wait);
+                moveMainViewer(locationIndex, "up");
                 $("#box3").removeClass("addclickevent");
                 // console.log("in");
                 if (postitionOne[0] === "p3") {
